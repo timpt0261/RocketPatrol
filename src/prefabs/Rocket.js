@@ -5,5 +5,7 @@ class Rocket extends Phaser.GameObjects.Sprite{
 
         // add object to existing scene
         scene.add.existing(this);
+
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
     }
 }
