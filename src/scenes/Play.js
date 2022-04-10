@@ -75,10 +75,17 @@ class Play extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
-
     }
 
     update() {
+        // check key input for restart / menu
+        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.scene.restart();
+        }
+        
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.scene.start("menuScene");
+        }
         //add space background
         this.starfield.tilePositionX -= 4;
 
@@ -103,9 +110,7 @@ class Play extends Phaser.Scene{
             this.shipExplode(this.ship01);
         }
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start("menuScene");
-        }
+        
     }
 
     checkCollision(rocket, ship) {
