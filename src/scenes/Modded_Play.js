@@ -17,17 +17,29 @@ class Modded_Play extends Phaser.Scene {
         this.load.image('children', './assets/mod_assets/children.png');
 
         this.load.image('booth', './assets/mod_assets/booth.png');
-        this.load.image('paper', './assets/mod_assets/paper.png');
+        this.load.image('clouds', './assets/mod_assets/clouds.png');
+        this.load.image('paper','./assets/mod_assets/paper.png')
 
     }
 
     create(){
         
         // place tile sprite
-        this.paper = this.add.tileSprite(0, 0, 640, 480, 'paper').setOrigin(0, 0);
-        this.booth = this.add.image(game.config.width/2,game.height/2,'booth').setOrigin(0.5, 0.5);
-        this.booth.displayWidth = this.sys.canvas.width;
-        this.booth.displayHeight = this.sys.canvas.height;
+        this.paper = this.add.tileSprite(0,0,640,480,'paper').setOrigin(0,0)
+        this.clouds = this.add.tileSprite(0, 150, 640, 480/4, 'clouds').setOrigin(0, 0);
+
+        this.audience_1 = this.add.tileSprite(100,310,120,60,'audience').setOrigin(0.5,0.5);
+        this.audience_2 = this.add.tileSprite(200,310,120,60,'audience').setOrigin(0.5,0.5);
+        this.audience_3 = this.add.tileSprite(300,310,120,60,'audience').setOrigin(0.5,0.5);
+        this.audience_4 = this.add.tileSprite(400,310,120,60,'audience').setOrigin(0.5,0.5);
+        this.audience_5 = this.add.tileSprite(500,310,120,60,'audience').setOrigin(0.5,0.5);
+        
+        this.children = this.add.tileSprite(220,340,95,35,'children').setOrigin(0.5,0.5);
+
+        this.booth = this.add.image(0,15,'booth').setOrigin(0, 0);
+        this.paper.displayWidth = this.sys.canvas.width;
+        this.paper.displayHeight = this.sys.canvas.height;
+
         // // green UI background
         // this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         
@@ -98,7 +110,7 @@ class Modded_Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
         //add space background
-        this.paper.tilePositionX -= 4;
+        this.clouds.tilePositionX -= 4;
 
         if (!this.gameOver) {               
             this.p1Dart.update();         // update dart sprite
