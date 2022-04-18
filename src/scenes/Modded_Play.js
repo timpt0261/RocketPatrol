@@ -39,7 +39,7 @@ class Modded_Play extends Phaser.Scene {
         this.audience_4 = this.add.tileSprite(400,310,120,60,'audience').setOrigin(0.5,0.5);
         this.audience_5 = this.add.tileSprite(500,310,120,60,'audience').setOrigin(0.5,0.5);
         
-        // paces children in background
+        // places children in background
         this.children = this.add.tileSprite(220,340,95,35,'children').setOrigin(0.5,0.5);
         //place background photos
         this.booth = this.add.image(0,15,'booth').setOrigin(0, 0);
