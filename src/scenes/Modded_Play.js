@@ -13,6 +13,8 @@ class Modded_Play extends Phaser.Scene {
         this.load.image('red_balloon', './assets/mod_assets/red_balloon.png');
         this.load.image('green_balloon', './assets/mod_assets/green_balloon.png');
 
+        this.load.image('ufo','./assets/mod_assets/ufo.png');
+
         this.load.image('confetti', './assets/mod_assets/confetti.png');
 
         this.load.image('audience', './assets/mod_assets/audience.png');
@@ -42,9 +44,6 @@ class Modded_Play extends Phaser.Scene {
         this.paper.displayWidth = this.sys.canvas.width;
         this.paper.displayHeight = this.sys.canvas.height;
 
-        // // green UI background
-        // this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-        
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0 ,0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0 ,0);
@@ -55,10 +54,15 @@ class Modded_Play extends Phaser.Scene {
         this.p1Dart = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'dart').setOrigin(0.5, 0);
 
         // add Balloons (x3)
+        this.ufo = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'ufo', 0, 60).setOrigin(0,0);
+
         this.red_balloon = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'red_balloon', 0, 30).setOrigin(0, 0);
         this.blue_balloon = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'blue_balloon', 0, 20).setOrigin(0,0);
         this.green_balloon = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'green_balloon', 0, 10).setOrigin(0,0);
-
+        
+        // initialize speed for ufo to be twice as fast
+        this.ufo.moveSpeed *= 2;
+        
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -124,6 +128,7 @@ class Modded_Play extends Phaser.Scene {
             this.red_balloon.update();           // update balloons (x3)
             this.blue_balloon.update();
             this.green_balloon.update();
+            this.ufo.update();
         }
 
         // check collisions
@@ -139,6 +144,11 @@ class Modded_Play extends Phaser.Scene {
             this.p1Dart.reset();
             this.balloonPop(this.red_balloon);
         }
+        if (this.checkCollision(this.p1Dart, this.ufo)) {
+            this.p1Dart.reset();
+            this.balloonPop(this.ufo);
+        }
+
 
         
     }

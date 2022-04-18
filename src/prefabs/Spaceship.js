@@ -14,6 +14,11 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         if(this.x <= 0 - this.width) {
             this.reset();
         }
+
+        // speeds up after 30 secs
+        if(game.settings.gameTimer == 30000){
+            this.moveSpeed++;
+        }
     }
 
     // position reset
