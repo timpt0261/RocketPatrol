@@ -1,4 +1,3 @@
-
 class Modded_Play extends Phaser.Scene {
     constructor() {
         super("mod_playScene");
@@ -9,9 +8,11 @@ class Modded_Play extends Phaser.Scene {
         // load images/tile sprites
         this.load.image('dart','./assets/mod_assets/dart.png');
         
-        this.load.image('blue_balloon', './assets/mod_assets/blue_ balloon.png');
-        this.load.image('red_balloon', './assets/mod_assets/red_ balloon.png');
-        this.load.image('green_balloon', './assets/mod_assets/green_ balloon.png');
+        this.load.image('blue_balloon', './assets/mod_assets/blue_balloon.png');
+        this.load.image('red_balloon', './assets/mod_assets/red_balloon.png');
+        this.load.image('green_balloon', './assets/mod_assets/green_balloon.png');
+
+        this.load.image('confetti', './assets/mod_assets/confetti.png');
 
         this.load.image('audience', './assets/mod_assets/audience.png');
         this.load.image('children', './assets/mod_assets/children.png');
@@ -49,10 +50,10 @@ class Modded_Play extends Phaser.Scene {
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0 ,0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0 ,0);
 
-        // add Rocket (p1)
+        // add Dart (p1)
         this.p1Dart = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'dart').setOrigin(0.5, 0);
 
-        // add Spaceships (x3)
+        // add Balloons (x3)
         this.red_balloon = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'red_balloon', 0, 30).setOrigin(0, 0);
         this.blue_balloon = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'blue_balloon', 0, 20).setOrigin(0,0);
         this.green_balloon = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'green_balloon', 0, 10).setOrigin(0,0);
@@ -63,12 +64,12 @@ class Modded_Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         
-        // animation config
-        this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
-            frameRate: 30
-        })
+        // creating emitter for particle system
+        this.confetti = this.add.particles('confetti');
+        this.emitter = this.confetti.createEmitter();
+        this.emitter.setQuantity(10);
+        this.emitter.gravity = 200;
+        this.emitter.setLifespan(2000);
 
         // initialize score
         this.p1Score = 0;
@@ -76,10 +77,10 @@ class Modded_Play extends Phaser.Scene {
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
+            fontSize: '20px',
+            backgroundColor: '#FBEFD8',
+            color: '#90CAF9',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -109,8 +110,16 @@ class Modded_Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
         }
-        //add space background
-        this.clouds.tilePositionX -= 4;
+        //add background
+        this.clouds.tilePositionX -= .5;
+
+        this.audience_1.tilePositionX -= .3;
+        this.audience_2.tilePositionX += .3;
+        this.audience_3.tilePositionX -= .3;
+        this.audience_4.tilePositionX += .3;
+        this.audience_5.tilePositionX -= .3;
+        
+        this.children.x = (this.children.x - 0.5) % 640;
 
         if (!this.gameOver) {               
             this.p1Dart.update();         // update dart sprite
@@ -150,19 +159,16 @@ class Modded_Play extends Phaser.Scene {
 
     balloonPop(balloon) {
         // temporarily hide balloon
-        balloon.alpha = 0;                         
-        // create explosion sprite at balloon's position
-        let boom = this.add.sprite(balloon.x, balloon.y, 'explosion').setOrigin(0, 0);
-        boom.anims.play('explode');             // play explode animation
-        boom.on('animationcomplete', () => {    // callback after ani completes
-          balloon.reset();                       // reset balloon position
-          balloon.alpha = 1;                     // make balloon visible again
-          boom.destroy();                     // remove explosion sprite
-        });
+        balloon.alpha = 0;
+
+        this.emitter.explode(10,balloon.x,balloon.y);
+        balloon.reset();
+        balloon.alpha = 1;
+
         // score add and repaint
         this.p1Score += balloon.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_explosion');       
+        this.sound.play('sfx_ballon_pop');       
         }
 
     

@@ -8,6 +8,9 @@ class Menu extends Phaser.Scene{
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+
+        // modded sound effects
+        this.load.audio('sfx_swish', './assets/mod_assets/swish_sfx.wav');
         this.load.audio('sfx_ballon_pop', './assets/mod_assets/party_whistle.wav');
         this.load.audio('sfx_carnival_music', './assets/mod_assets/carnival_song.wav');
 
@@ -61,7 +64,8 @@ class Menu extends Phaser.Scene{
             // easy mode
             game.settings = {
                 spaceshipSpeed: 3,
-                gameTimer: 60000    
+                gameTimer: 60000,
+                rocketSfx: 'sfx_rocket'    
             }
             this.sound.play('sfx_select');
             this.scene.start('playScene');    
@@ -70,14 +74,22 @@ class Menu extends Phaser.Scene{
             // hard mode
             game.settings = {
                 spaceshipSpeed: 4,
-                gameTimer: 45000    
+                gameTimer: 45000,
+                rocketSfx: 'sfx_rocket'
+
             }
             this.sound.play('sfx_select');
             this.scene.start('playScene');    
         }
 
         if(Phaser.Input.Keyboard.JustDown(keyUP)){
-            // moded mode
+            // modded mode
+            game.settings = {
+                spaceshipSpeed: 2,
+                gameTimer: 60000,
+                rocketSfx: 'sfx_swish',
+
+            }
             this.scene.start('mod_playScene');
         }
     }
