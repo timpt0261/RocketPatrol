@@ -87,11 +87,11 @@ class Menu extends Phaser.Scene{
             game.settings = {
                 spaceshipSpeed: 2,
                 gameTimer: 60000,
-                rocketSfx: 'sfx_swish',
+                rocketSfx: 'sfx_swish', // created swish sound only for modded mode
 
             }
             this.scene.start('mod_playScene');
-            this.sound.play('sfx_carnival_music');
+            this.sound.play('sfx_carnival_music'); // music starts when this scence is played
             
         }
     }
