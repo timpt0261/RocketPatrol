@@ -1,3 +1,4 @@
+
 class Modded_Play extends Phaser.Scene {
     constructor() {
         super("mod_playScene");
@@ -67,10 +68,7 @@ class Modded_Play extends Phaser.Scene {
         // creating emitter for particle system
         this.confetti = this.add.particles('confetti');
         this.emitter = this.confetti.createEmitter();
-        this.emitter.setQuantity(10);
-        this.emitter.gravity = 200;
-        this.emitter.setLifespan(2000);
-
+        
         // initialize score
         this.p1Score = 0;
 
@@ -160,16 +158,22 @@ class Modded_Play extends Phaser.Scene {
     balloonPop(balloon) {
         // temporarily hide balloon
         balloon.alpha = 0;
-
-        this.emitter.explode(10,balloon.x,balloon.y);
+        // Modification for particle effect
+        this.emitter.setPosition(balloon.x, balloon.y);
+        this.emitter.setFrequency(4000,5);
+        this.emitter.setSpeed(100);
+        this.emitter.gravity = 200;
+        this.emitter.setLifespan(60000);
+        
+        
         balloon.reset();
         balloon.alpha = 1;
-
+        
         // score add and repaint
         this.p1Score += balloon.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_ballon_pop');       
+        this.sound.play('sfx_ballon_pop');
+        this.emitter      
         }
-
     
 }

@@ -56,7 +56,7 @@ class Menu extends Phaser.Scene{
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
-
+        
     }
 
     update() {
@@ -91,6 +91,8 @@ class Menu extends Phaser.Scene{
 
             }
             this.scene.start('mod_playScene');
+            this.sound.play('sfx_carnival_music');
+            
         }
     }
 
