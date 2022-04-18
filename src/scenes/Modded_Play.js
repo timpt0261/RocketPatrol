@@ -7,7 +7,7 @@ class Modded_Play extends Phaser.Scene {
     preload()
     {
         // load images/tile sprites
-        this.load.image('dart','./assets/mod_assets/dart.png');
+        this.load.image('dart','./assets/mod_assets/Dart.png');
         
         this.load.image('blue_balloon', './assets/mod_assets/blue_balloon.png');
         this.load.image('red_balloon', './assets/mod_assets/red_balloon.png');
@@ -17,12 +17,12 @@ class Modded_Play extends Phaser.Scene {
 
         this.load.image('confetti', './assets/mod_assets/confetti.png');
 
-        this.load.image('audience', './assets/mod_assets/audience.png');
-        this.load.image('children', './assets/mod_assets/children.png');
+        this.load.image('audience', './assets/mod_assets/Audience.png');
+        this.load.image('children', './assets/mod_assets/Children.png');
 
-        this.load.image('booth', './assets/mod_assets/booth.png');
+        this.load.image('booth', './assets/mod_assets/Booth.png');
         this.load.image('clouds', './assets/mod_assets/clouds.png');
-        this.load.image('paper','./assets/mod_assets/paper.png')
+        this.load.image('paper','./assets/mod_assets/Paper.png')
 
     }
 
