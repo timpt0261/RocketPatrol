@@ -32,14 +32,16 @@ class Modded_Play extends Phaser.Scene {
         this.paper = this.add.tileSprite(0,0,640,480,'paper').setOrigin(0,0)
         this.clouds = this.add.tileSprite(0, 150, 640, 480/4, 'clouds').setOrigin(0, 0);
 
+        // place audience in the back ground
         this.audience_1 = this.add.tileSprite(100,310,120,60,'audience').setOrigin(0.5,0.5);
         this.audience_2 = this.add.tileSprite(200,310,120,60,'audience').setOrigin(0.5,0.5);
         this.audience_3 = this.add.tileSprite(300,310,120,60,'audience').setOrigin(0.5,0.5);
         this.audience_4 = this.add.tileSprite(400,310,120,60,'audience').setOrigin(0.5,0.5);
         this.audience_5 = this.add.tileSprite(500,310,120,60,'audience').setOrigin(0.5,0.5);
         
+        // places children in background
         this.children = this.add.tileSprite(220,340,95,35,'children').setOrigin(0.5,0.5);
-
+        //place background photos
         this.booth = this.add.image(0,15,'booth').setOrigin(0, 0);
         this.paper.displayWidth = this.sys.canvas.width;
         this.paper.displayHeight = this.sys.canvas.height;
@@ -53,9 +55,10 @@ class Modded_Play extends Phaser.Scene {
         // add Dart (p1)
         this.p1Dart = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'dart').setOrigin(0.5, 0);
 
-        // add Balloons (x3)
+        // New enemy that is worth 60 points and is faster
         this.ufo = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'ufo', 0, 60).setOrigin(0,0);
 
+        // add Balloons (x3)
         this.red_balloon = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'red_balloon', 0, 30).setOrigin(0, 0);
         this.blue_balloon = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'blue_balloon', 0, 20).setOrigin(0,0);
         this.green_balloon = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'green_balloon', 0, 10).setOrigin(0,0);
@@ -112,16 +115,22 @@ class Modded_Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
         }
-        //add background
+        //cloud backtile moves from left to right
         this.clouds.tilePositionX -= .5;
 
+        // Audience moves in accordence in various direction
         this.audience_1.tilePositionX -= .3;
         this.audience_2.tilePositionX += .3;
         this.audience_3.tilePositionX -= .3;
         this.audience_4.tilePositionX += .3;
         this.audience_5.tilePositionX -= .3;
         
-        this.children.x = (this.children.x - 0.5) % 640;
+        
+        // Create loop effect for children running in background
+        if(this.children.x < 10){
+            this.children.x = game.config.width;
+        }
+        this.children.x -= .8;
 
         if (!this.gameOver) {               
             this.p1Dart.update();         // update dart sprite
@@ -168,12 +177,13 @@ class Modded_Play extends Phaser.Scene {
     balloonPop(balloon) {
         // temporarily hide balloon
         balloon.alpha = 0;
-        // Modification for particle effect
+
+        // Creates confetti effect
         this.emitter.setPosition(balloon.x, balloon.y);
         this.emitter.setFrequency(4000,5);
         this.emitter.setSpeed(100);
         this.emitter.gravity = 200;
-        this.emitter.setLifespan(60000);
+        this.emitter.setLifespan(4000);
         
         
         balloon.reset();
